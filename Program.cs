@@ -10,15 +10,15 @@ namespace ConsoleApp1
 {
     class Program
     {
-        
-
+    
         static char IntTo64 (int i)
         {
+            int c = 0;
             string karakteret = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
             StringBuilder sb4 = new StringBuilder();
-            char karakteri = 'a';
+            char karakteri = 'b';
 
-            for (int c = 0; c < karakteret.Length; c++)
+            for (c = 0; c <= 63; c++)
             {
                 if (i == c)
                 {
@@ -31,13 +31,21 @@ namespace ConsoleApp1
         }
 
         StringBuilder sb = new StringBuilder();
-        public string ToBinary(double numri)
+
+        public string ToBinary(double numri, int counter)
         {
+            
             numri = Math.Floor(numri);
 
             if (numri == 1)
             {
                 sb.Insert(0,1);
+                counter = counter + 1;
+                
+                if (counter == 7)
+                {
+                    sb.Insert(0, 0);
+                }
 
                 return sb.ToString();
             }
@@ -45,15 +53,18 @@ namespace ConsoleApp1
             if (numri % 2 == 0)
             {
                 sb.Insert(0, 0);
+                counter = counter + 1;
             }
             else if (numri % 2 == 1)
             {
                 sb.Insert(0, 1);
+                counter = counter + 1;
             }
 
             numri = numri / 2;
             
-            ToBinary(numri);
+            ToBinary(numri, counter);
+            
 
             return sb.ToString(); //nuk egzekutohet kurr
         }
@@ -66,10 +77,8 @@ namespace ConsoleApp1
                 sb.Clear();
                 int num = (int)(stringu[i]);
                 double numri = Convert.ToDouble(num);
-                string numriFinal = ToBinary(numri);
+                string numriFinal = ToBinary(numri, 0);
 
-                Console.WriteLine(numriFinal);
-                
                 sb2.Append(numriFinal);
             }
 
@@ -82,7 +91,16 @@ namespace ConsoleApp1
             int sum = 0;
             char positiveBit = '1';
 
-            for (int i = 0; i < stringu.Length - 1; i=i+6)
+            int bitat = 6;
+            int mbetja = stringu.Length % 6;
+            int finalMbetja = bitat - mbetja;
+
+            for (int i = 0; i < finalMbetja; i++)
+            {
+                stringu = stringu + "0";
+            }
+
+            for (int i = 0; i < stringu.Length; i=i+6)
             {
                 if (stringu[i].Equals(positiveBit))
                 {
@@ -104,13 +122,12 @@ namespace ConsoleApp1
                 {
                     sum = sum + 2;
                 }
-                if (stringu[i + 5].Equals(1))
+                if (stringu[i + 5].Equals(positiveBit))
                 {
                     sum = sum + 1;
                 }
-
-                Console.WriteLine(IntTo64(sum));
-                sb3.Append(sum);
+                
+                sb3.Append(IntTo64(sum));
                 sum = 0;
             }
 
@@ -124,8 +141,17 @@ namespace ConsoleApp1
         {
             Program prg = new Program();
 
-            string asd = prg.StringToBinary("ASDAA");
-            Console.WriteLine(prg.NdajeNga6(asd));
+            string stringu = "diqkaslkdjaslkdjklajsldjasldjalsjdljaksdalsj";
+
+            string asd = prg.StringToBinary(stringu);
+
+            byte[] bytes = Encoding.UTF8.GetBytes(stringu);
+            string base64 = Convert.ToBase64String(bytes);
+
+            Console.WriteLine("Si duhet: " + base64);
+
+            Console.WriteLine("Si osht: " + prg.NdajeNga6(asd));
+            
 
             Console.ReadKey();
         }

@@ -35,7 +35,7 @@ namespace Decryption
                     first.Insert(0, 0);
                 }
 
-                return first.ToString(); //vec njo mjafton se tjerat i mush paddingu
+                return first.ToString();
             }
             if (numri == 1)
             {

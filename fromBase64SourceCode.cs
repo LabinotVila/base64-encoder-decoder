@@ -10,10 +10,6 @@ namespace Decryption
     {
         public int convertCharToInt(char character)
         {
-            if (character == '=')
-            {
-                return 0;
-            }
             int found = 0;
             string range = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
@@ -34,7 +30,10 @@ namespace Decryption
         {
             if (numri == 0)
             {
-                first.Insert(0, 0);
+                for (int i = 0; i < 6; i++)
+                {
+                    first.Insert(0, 0);
+                }
 
                 return first.ToString(); //vec njo mjafton se tjerat i mush paddingu
             }
@@ -71,6 +70,8 @@ namespace Decryption
             {
                 first.Clear();
                 int charPerText = convertCharToInt(text[i]);
+                
+
 
                 second.Append(ConvertIntToBinary(charPerText));
             }
@@ -136,6 +137,10 @@ namespace Decryption
             text = text.Replace("=", "");
             string string1 = convertTextToBinary(text);
             string string2 = splitByEightBits(string1);
+
+            first.Clear();
+            second.Clear();
+            third.Clear();
 
             return string2;
         }

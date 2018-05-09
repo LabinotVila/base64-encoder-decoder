@@ -63,7 +63,6 @@ namespace Decryption
             return first.ToString();
         }
 
-		//ketu fillon kodi
         StringBuilder second = new StringBuilder();
         public string convertTextToBinary(string text)
         {

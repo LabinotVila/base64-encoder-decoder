@@ -46,12 +46,20 @@ namespace Base64App
         {
             txtInputTekst.Enabled = false;
             Browse.Enabled = true;
+
+            txtInputTekst.Text = "";
+            txtTekstiJuaj.Text = "";
+            txtOutputTekst.Text = "";
         }
 
         private void rdbShkruajTekst_CheckedChanged(object sender, EventArgs e)
         {
             Browse.Enabled = false;
             txtInputTekst.Enabled = true;
+
+            txtInputTekst.Text = "";
+            txtTekstiJuaj.Text = "";
+            txtOutputTekst.Text = "";
         }
 
         private void Browse_Click(object sender, EventArgs e)

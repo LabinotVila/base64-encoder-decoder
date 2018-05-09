@@ -57,7 +57,8 @@ namespace Base64App
         private void Browse_Click(object sender, EventArgs e)
         {
             OpenFileDialog browser = new OpenFileDialog();
-            
+            browser.Title = "Direktiva për hapjen e fajllit!";
+
             if (browser.ShowDialog() == DialogResult.OK)
             {
                 txtInputTekst.Text = browser.FileName;
@@ -88,11 +89,24 @@ namespace Base64App
             {
                 if (rdbImportTekst.Checked == true)
                 {
+                    
                     StreamReader tekstiLexuar = new StreamReader(txtInputTekst.Text);
+                    string teksti = tekstiLexuar.ReadToEnd();
 
-                    txtTekstiJuaj.Text = tekstiLexuar.ReadToEnd();
+                    if (Dekripto.isStringValid(teksti))
+                    {
 
-                    txtOutputTekst.Text = Dekripto.Decode(txtTekstiJuaj.Text);
+                        txtTekstiJuaj.Text = teksti;
+
+                        txtOutputTekst.Text = Dekripto.Decode(teksti);
+                        tekstiLexuar.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Jo valid!");
+                        tekstiLexuar.Close();
+                        return;
+                    }
                 }
                 else
                 {
@@ -102,6 +116,7 @@ namespace Base64App
             }
         }
 
+        //nuk mundet me u fshi?!
         private void Form1_Load(object sender, EventArgs e)
         {
         }
@@ -110,6 +125,7 @@ namespace Base64App
         {
             SaveFileDialog browser = new SaveFileDialog();
             browser.Filter = "Text Format|*.txt";
+            browser.Title = "Direktiva për ruajtjen e fajllit!";
 
             if (browser.ShowDialog() == DialogResult.OK)
             {
@@ -119,7 +135,7 @@ namespace Base64App
                 shkruajTekst.Close();
 
 
-                MessageBox.Show("Keni ruajtur me sukses tekstin!");
+                MessageBox.Show("Keni ruajtur me sukses tekstin!", "Informatë");
             }
         }
     }

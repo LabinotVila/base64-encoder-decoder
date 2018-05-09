@@ -32,10 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Decryption">
+    <Reference Include="Decryption, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Decryption\Decryption\bin\Debug\Decryption.dll</HintPath>
     </Reference>
-    <Reference Include="Encryption">
+    <Reference Include="Encryption, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Encryption\Encryption\bin\Debug\Encryption.dll</HintPath>
     </Reference>
     <Reference Include="System" />

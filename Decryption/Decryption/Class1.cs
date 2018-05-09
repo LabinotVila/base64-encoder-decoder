@@ -4,20 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Encryption
+namespace Decryption
 {
-    public class toBase64
+    public class fromBase64
     {
-        public char convertIntToChar(int number)
+        public int convertCharToInt(char character)
         {
-            char found = 'a';
+            int found = 0;
             string range = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
             for (int i = 0; i < range.Length; i++)
             {
-                if (number == i)
+                if (character == range[i])
                 {
-                    found = range[i];
+                    found = i;
                     break;
                 }
             }
@@ -26,106 +26,106 @@ namespace Encryption
         }
 
         StringBuilder first = new StringBuilder();
-        public string convertIntToBinary(int number)
+        public string ConvertIntToBinary(int numri)
         {
-            if (number == 1)
+            if (numri == 0)
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    first.Insert(0, 0);
+                }
+
+                return first.ToString(); //vec njo mjafton se tjerat i mush paddingu
+            }
+            if (numri == 1)
             {
                 first.Insert(0, 1);
 
-                while (first.Length % 8 != 0)
+                while (first.Length % 6 != 0)
                 {
                     first.Insert(0, 0);
                 }
 
                 return first.ToString();
             }
-            if (number % 2 == 0)
+            if (numri % 2 == 0)
             {
                 first.Insert(0, 0);
             }
-            if (number % 2 == 1)
+            if (numri % 2 == 1)
             {
                 first.Insert(0, 1);
             }
 
-            number = number / 2;
-            convertIntToBinary(number);
+            numri = numri / 2;
+            ConvertIntToBinary(numri);
 
             return first.ToString();
         }
 
+		//ketu fillon kodi
         StringBuilder second = new StringBuilder();
         public string convertTextToBinary(string text)
         {
-            byte[] byteArray = Encoding.ASCII.GetBytes(text);
-
-
-            for (int i = 0; i < byteArray.Length; i++)
+            for (int i = 0; i < text.Length; i++)
             {
                 first.Clear();
-                string binaryNumber = convertIntToBinary(byteArray[i]);
-                second.Append(binaryNumber);
-
-
+                int charPerText = convertCharToInt(text[i]);
+                second.Append(ConvertIntToBinary(charPerText));
             }
 
             return second.ToString();
         }
 
         StringBuilder third = new StringBuilder();
-        public string splitBySixBits(string text)
+        public string splitByEightBits(string text)
         {
             double sum = 0;
             char pos = '1';
 
-            if (text.Length % 6 != 0)
+            if (text.Length % 8 != 0)
             {
-                text = text.PadRight(text.Length + (6 - text.Length % 6), '0');
+                text = text.PadRight(text.Length + (8 - text.Length % 8), '0');
             }
 
-
-            for (int i = 0; i < text.Length; i = i + 6)
+            for (int i = 0; i < text.Length; i = i + 8)
             {
-                for (int j = 0; j < 6; j++)
+                for (int j = 0; j < 8; j++)
                 {
-                    if (text[i + j].Equals(pos))
-                        sum = sum + Math.Pow(2, (5 - j));
+                    if (text[i+j].Equals(pos))
+                    {
+                        sum = sum + Math.Pow(2, (7 - j));
+                    }
                     else
+                    {
                         sum = sum + 0;
+                    }
+                    
                 }
 
                 sum = Math.Floor(sum);
                 int fin = Convert.ToInt32(sum);
-                third.Append(convertIntToChar(fin));
+                third.Append((char)fin);
                 sum = 0;
             }
 
             return third.ToString();
         }
 
-        public string addPaddingToText(string text)
+        public string Decode (string text)
         {
-            if (text.Length % 4 != 0)
-            {
-                text = text.PadRight(text.Length + (4 - text.Length % 4), '=');
-            }
-
-            return text;
-        }
-
-        public string Encode(string text)
-        {
+            text = text.Replace("=", "");
             string string1 = convertTextToBinary(text);
-            string string2 = splitBySixBits(string1);
+            string string2 = splitByEightBits(string1);
 
             first.Clear();
             second.Clear();
             third.Clear();
 
-            return addPaddingToText(string2);
+            return string2;
         }
 
-        public bool isStringValid(string text)
+        public bool isStringValid (string text)
         {
             string range = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
